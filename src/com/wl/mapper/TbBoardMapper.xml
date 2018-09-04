@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wl.dao.TbBoardDao" >
+  <resultMap id="BaseResultMap" type="com.wl.entity.TbBoard" >
+    <id column="BOARD_ID" property="boardId" jdbcType="DECIMAL" />
+    <result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+    <result column="BOARD_CLASSID" property="boardClassid" jdbcType="DECIMAL" />
+    <result column="BOARD_NAME" property="boardName" jdbcType="VARCHAR" />
+    <result column="BOARD_MASTER" property="boardMaster" jdbcType="VARCHAR" />
+    <result column="BOARD_PCARD" property="boardPcard" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BOARD_ID, CLASS_ID, BOARD_CLASSID, BOARD_NAME, BOARD_MASTER, BOARD_PCARD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_BOARD
+    where BOARD_ID = #{boardId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TB_BOARD
+    where BOARD_ID = #{boardId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.wl.entity.TbBoard" >
+    insert into TB_BOARD (BOARD_ID, CLASS_ID, BOARD_CLASSID, 
+      BOARD_NAME, BOARD_MASTER, BOARD_PCARD
+      )
+    values (#{boardId,jdbcType=DECIMAL}, #{classId,jdbcType=DECIMAL}, #{boardClassid,jdbcType=DECIMAL}, 
+      #{boardName,jdbcType=VARCHAR}, #{boardMaster,jdbcType=VARCHAR}, #{boardPcard,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wl.entity.TbBoard" >
+    insert into TB_BOARD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="boardId != null" >
+        BOARD_ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="boardClassid != null" >
+        BOARD_CLASSID,
+      </if>
+      <if test="boardName != null" >
+        BOARD_NAME,
+      </if>
+      <if test="boardMaster != null" >
+        BOARD_MASTER,
+      </if>
+      <if test="boardPcard != null" >
+        BOARD_PCARD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="boardId != null" >
+        #{boardId,jdbcType=DECIMAL},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="boardClassid != null" >
+        #{boardClassid,jdbcType=DECIMAL},
+      </if>
+      <if test="boardName != null" >
+        #{boardName,jdbcType=VARCHAR},
+      </if>
+      <if test="boardMaster != null" >
+        #{boardMaster,jdbcType=VARCHAR},
+      </if>
+      <if test="boardPcard != null" >
+        #{boardPcard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wl.entity.TbBoard" >
+    update TB_BOARD
+    <set >
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="boardClassid != null" >
+        BOARD_CLASSID = #{boardClassid,jdbcType=DECIMAL},
+      </if>
+      <if test="boardName != null" >
+        BOARD_NAME = #{boardName,jdbcType=VARCHAR},
+      </if>
+      <if test="boardMaster != null" >
+        BOARD_MASTER = #{boardMaster,jdbcType=VARCHAR},
+      </if>
+      <if test="boardPcard != null" >
+        BOARD_PCARD = #{boardPcard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BOARD_ID = #{boardId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wl.entity.TbBoard" >
+    update TB_BOARD
+    set CLASS_ID = #{classId,jdbcType=DECIMAL},
+      BOARD_CLASSID = #{boardClassid,jdbcType=DECIMAL},
+      BOARD_NAME = #{boardName,jdbcType=VARCHAR},
+      BOARD_MASTER = #{boardMaster,jdbcType=VARCHAR},
+      BOARD_PCARD = #{boardPcard,jdbcType=VARCHAR}
+    where BOARD_ID = #{boardId,jdbcType=DECIMAL}
+  </update>
+</mapper>

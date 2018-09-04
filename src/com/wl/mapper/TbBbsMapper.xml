@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wl.dao.TbBbsDao" >
+  <resultMap id="BaseResultMap" type="com.wl.entity.TbBbs" >
+    <id column="BBS_ID" property="bbsId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="BOARD_ID" property="boardId" jdbcType="DECIMAL" />
+    <result column="BBS_BOARDID" property="bbsBoardid" jdbcType="DECIMAL" />
+    <result column="BBS_TITLE" property="bbsTitle" jdbcType="VARCHAR" />
+    <result column="BBS_CONTENT" property="bbsContent" jdbcType="VARCHAR" />
+    <result column="BBS_SENDER" property="bbsSender" jdbcType="VARCHAR" />
+    <result column="BBS_SENDTIME" property="bbsSendtime" jdbcType="TIMESTAMP" />
+    <result column="BBS_FACE" property="bbsFace" jdbcType="VARCHAR" />
+    <result column="BBS_OPTIME" property="bbsOptime" jdbcType="TIMESTAMP" />
+    <result column="BBS_ISTOP" property="bbsIstop" jdbcType="VARCHAR" />
+    <result column="BBS_TOTOPTIME" property="bbsTotoptime" jdbcType="TIMESTAMP" />
+    <result column="BBS_ISGOOD" property="bbsIsgood" jdbcType="VARCHAR" />
+    <result column="BBS_TOGOODTIME" property="bbsTogoodtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BBS_ID as bbsId, USER_ID as userId, BOARD_ID as boardId, BBS_BOARDID as bbsBoardid, BBS_TITLE as bbsTitle, BBS_CONTENT as bbsContent, BBS_SENDER as bbsSender, BBS_SENDTIME as bbsSendtime, 
+    BBS_FACE as bbsFace, BBS_OPTIME as bbsOptime, BBS_ISTOP as bbsIstop, BBS_TOTOPTIME as bbsTotoptime, BBS_ISGOOD as bbsIsgood, BBS_TOGOODTIME as bbsTogoodtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_BBS
+    where BBS_ID = #{bbsId,jdbcType=DECIMAL}
+  </select>
+  <select id="listTbBbs" resultType="com.wl.entity.TbBbs">
+    select 
+    <include refid="Base_Column_List" />
+    from TB_BBS
+  </select>
+   <!-- 分页SQL语句 --> 
+    <select id="selectTbBbsByPage" resultMap="BaseResultMap"> 
+        <!-- select
+        <include refid="Base_Column_List"/> -->
+        <!-- from TB_BBS 
+        where BBS_ID between #{startPos} and #{endPos}  -->
+        select * from ( select  t.*, rownum RN from TB_BBS  t ) where RN between #{startPos} and #{endPos}
+    </select> 
+	<!-- 取得记录的总数 --> 
+	<select id="getTbBbsCount" resultType="long">
+	        SELECT COUNT(*) FROM TB_BBS  
+	</select>
+	<!-- 模糊搜索 --> 
+	<select id="SelectTbBbsLike" resultMap="BaseResultMap" statementType="STATEMENT">
+	    select
+        <include refid="Base_Column_List"/>
+        from TB_BBS where  ${TJ} like '%' || '${value}' || '%'
+	</select>
+	 <select id="SelectTbBbsOrder" resultType="com.wl.entity.TbBbs" parameterType="com.wl.entity.TbBbs">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from TB_BBS where 1 = 1
+	      <if test="bbsTitle != null and bbsTitle !=''" >
+	        and BBS_TITLE = #{bbsTitle,jdbcType=VARCHAR}
+	      </if>
+	      <if test="bbsSender != null and bbsSender !=''" >
+	        and BBS_SENDER = #{bbsSender,jdbcType=VARCHAR}
+	      </if>
+	      <if test="bbsIstop != null and bbsIstop !=''" >
+	        and BBS_ISTOP = #{bbsIstop,jdbcType=VARCHAR} 
+	      </if>
+	      <if test="bbsIsgood != null and bbsIsgood !=''" >
+	         and BBS_ISGOOD = #{bbsIsgood,jdbcType=VARCHAR}
+	      </if>
+	  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TB_BBS
+    where BBS_ID = #{bbsId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.wl.entity.TbBbs" >
+    insert into TB_BBS (BBS_ID, USER_ID, BOARD_ID, 
+      BBS_BOARDID, BBS_TITLE, BBS_CONTENT, 
+      BBS_SENDER, BBS_SENDTIME, BBS_FACE, 
+      BBS_OPTIME, BBS_ISTOP, BBS_TOTOPTIME, 
+      BBS_ISGOOD, BBS_TOGOODTIME)
+    values (#{bbsId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{boardId,jdbcType=DECIMAL}, 
+      #{bbsBoardid,jdbcType=DECIMAL}, #{bbsTitle,jdbcType=VARCHAR}, #{bbsContent,jdbcType=VARCHAR}, 
+      #{bbsSender,jdbcType=VARCHAR}, #{bbsSendtime,jdbcType=TIMESTAMP}, #{bbsFace,jdbcType=VARCHAR}, 
+      #{bbsOptime,jdbcType=TIMESTAMP}, #{bbsIstop,jdbcType=VARCHAR}, #{bbsTotoptime,jdbcType=TIMESTAMP}, 
+      #{bbsIsgood,jdbcType=VARCHAR}, #{bbsTogoodtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wl.entity.TbBbs" >
+    insert into TB_BBS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        BBS_ID,
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="boardId != null" >
+        BOARD_ID,
+      </if>
+      <if test="bbsBoardid != null" >
+        BBS_BOARDID,
+      </if>
+      <if test="bbsTitle != null" >
+        BBS_TITLE,
+      </if>
+      <if test="bbsContent != null" >
+        BBS_CONTENT,
+      </if>
+      <if test="bbsSender != null" >
+        BBS_SENDER,
+      </if>
+      <if test="bbsSendtime != null" >
+        BBS_SENDTIME,
+      </if>
+      <if test="bbsFace != null" >
+        BBS_FACE,
+      </if>
+      <if test="bbsOptime != null" >
+        BBS_OPTIME,
+      </if>
+      <if test="bbsIstop != null" >
+        BBS_ISTOP,
+      </if>
+      <if test="bbsTotoptime != null" >
+        BBS_TOTOPTIME,
+      </if>
+      <if test="bbsIsgood != null" >
+        BBS_ISGOOD,
+      </if>
+      <if test="bbsTogoodtime != null" >
+        BBS_TOGOODTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        MY_COMMON_SEQ.NEXTVAL,
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="boardId != null" >
+        #{boardId,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsBoardid != null" >
+        #{bbsBoardid,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsTitle != null" >
+        #{bbsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsContent != null" >
+        #{bbsContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsSender != null" >
+        #{bbsSender,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsSendtime != null" >
+        #{bbsSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsFace != null" >
+        #{bbsFace,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsOptime != null" >
+        #{bbsOptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsIstop != null" >
+        #{bbsIstop,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsTotoptime != null" >
+        #{bbsTotoptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsIsgood != null" >
+        #{bbsIsgood,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsTogoodtime != null" >
+        #{bbsTogoodtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wl.entity.TbBbs" >
+    update TB_BBS
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="boardId != null" >
+        BOARD_ID = #{boardId,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsBoardid != null" >
+        BBS_BOARDID = #{bbsBoardid,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsTitle != null" >
+        BBS_TITLE = #{bbsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsContent != null" >
+        BBS_CONTENT = #{bbsContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsSender != null" >
+        BBS_SENDER = #{bbsSender,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsSendtime != null" >
+        BBS_SENDTIME = #{bbsSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsFace != null" >
+        BBS_FACE = #{bbsFace,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsOptime != null" >
+        BBS_OPTIME = #{bbsOptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsIstop != null" >
+        BBS_ISTOP = #{bbsIstop,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsTotoptime != null" >
+        BBS_TOTOPTIME = #{bbsTotoptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsIsgood != null" >
+        BBS_ISGOOD = #{bbsIsgood,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsTogoodtime != null" >
+        BBS_TOGOODTIME = #{bbsTogoodtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BBS_ID = #{bbsId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wl.entity.TbBbs" >
+    update TB_BBS
+    set USER_ID = #{userId,jdbcType=DECIMAL},
+      BOARD_ID = #{boardId,jdbcType=DECIMAL},
+      BBS_BOARDID = #{bbsBoardid,jdbcType=DECIMAL},
+      BBS_TITLE = #{bbsTitle,jdbcType=VARCHAR},
+      BBS_CONTENT = #{bbsContent,jdbcType=VARCHAR},
+      BBS_SENDER = #{bbsSender,jdbcType=VARCHAR},
+      BBS_SENDTIME = #{bbsSendtime,jdbcType=TIMESTAMP},
+      BBS_FACE = #{bbsFace,jdbcType=VARCHAR},
+      BBS_OPTIME = #{bbsOptime,jdbcType=TIMESTAMP},
+      BBS_ISTOP = #{bbsIstop,jdbcType=VARCHAR},
+      BBS_TOTOPTIME = #{bbsTotoptime,jdbcType=TIMESTAMP},
+      BBS_ISGOOD = #{bbsIsgood,jdbcType=VARCHAR},
+      BBS_TOGOODTIME = #{bbsTogoodtime,jdbcType=TIMESTAMP}
+    where BBS_ID = #{bbsId,jdbcType=DECIMAL}
+  </update>
+</mapper>

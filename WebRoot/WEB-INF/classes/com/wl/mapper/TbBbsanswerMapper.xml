@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wl.dao.TbBbsanswerDao" >
+  <resultMap id="BaseResultMap" type="com.wl.entity.TbBbsanswer" >
+    <id column="BBSANSWER_ID" property="bbsanswerId" jdbcType="DECIMAL" />
+    <result column="BBS_ID" property="bbsId" jdbcType="DECIMAL" />
+    <result column="BBSANSWER_ROOTID" property="bbsanswerRootid" jdbcType="DECIMAL" />
+    <result column="BBSANSWER_TITLE" property="bbsanswerTitle" jdbcType="VARCHAR" />
+    <result column="BBSANSWER_CONTENT" property="bbsanswerContent" jdbcType="VARCHAR" />
+    <result column="BBSANSWER_SENDER" property="bbsanswerSender" jdbcType="VARCHAR" />
+    <result column="BBSANSWER_SENDTIME" property="bbsanswerSendtime" jdbcType="TIMESTAMP" />
+    <result column="BBSANSWER_FACE" property="bbsanswerFace" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BBSANSWER_ID, BBS_ID, BBSANSWER_ROOTID, BBSANSWER_TITLE, BBSANSWER_CONTENT, BBSANSWER_SENDER, 
+    BBSANSWER_SENDTIME, BBSANSWER_FACE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_BBSANSWER
+    where BBSANSWER_ID = #{bbsanswerId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TB_BBSANSWER
+    where BBSANSWER_ID = #{bbsanswerId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.wl.entity.TbBbsanswer" >
+    insert into TB_BBSANSWER (BBSANSWER_ID, BBS_ID, BBSANSWER_ROOTID, 
+      BBSANSWER_TITLE, BBSANSWER_CONTENT, BBSANSWER_SENDER, 
+      BBSANSWER_SENDTIME, BBSANSWER_FACE)
+    values (#{bbsanswerId,jdbcType=DECIMAL}, #{bbsId,jdbcType=DECIMAL}, #{bbsanswerRootid,jdbcType=DECIMAL}, 
+      #{bbsanswerTitle,jdbcType=VARCHAR}, #{bbsanswerContent,jdbcType=VARCHAR}, #{bbsanswerSender,jdbcType=VARCHAR}, 
+      #{bbsanswerSendtime,jdbcType=TIMESTAMP}, #{bbsanswerFace,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wl.entity.TbBbsanswer" >
+    insert into TB_BBSANSWER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bbsanswerId != null" >
+        BBSANSWER_ID,
+      </if>
+      <if test="bbsId != null" >
+        BBS_ID,
+      </if>
+      <if test="bbsanswerRootid != null" >
+        BBSANSWER_ROOTID,
+      </if>
+      <if test="bbsanswerTitle != null" >
+        BBSANSWER_TITLE,
+      </if>
+      <if test="bbsanswerContent != null" >
+        BBSANSWER_CONTENT,
+      </if>
+      <if test="bbsanswerSender != null" >
+        BBSANSWER_SENDER,
+      </if>
+      <if test="bbsanswerSendtime != null" >
+        BBSANSWER_SENDTIME,
+      </if>
+      <if test="bbsanswerFace != null" >
+        BBSANSWER_FACE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bbsanswerId != null" >
+        #{bbsanswerId,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsId != null" >
+        #{bbsId,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsanswerRootid != null" >
+        #{bbsanswerRootid,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsanswerTitle != null" >
+        #{bbsanswerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerContent != null" >
+        #{bbsanswerContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerSender != null" >
+        #{bbsanswerSender,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerSendtime != null" >
+        #{bbsanswerSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsanswerFace != null" >
+        #{bbsanswerFace,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wl.entity.TbBbsanswer" >
+    update TB_BBSANSWER
+    <set >
+      <if test="bbsId != null" >
+        BBS_ID = #{bbsId,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsanswerRootid != null" >
+        BBSANSWER_ROOTID = #{bbsanswerRootid,jdbcType=DECIMAL},
+      </if>
+      <if test="bbsanswerTitle != null" >
+        BBSANSWER_TITLE = #{bbsanswerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerContent != null" >
+        BBSANSWER_CONTENT = #{bbsanswerContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerSender != null" >
+        BBSANSWER_SENDER = #{bbsanswerSender,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsanswerSendtime != null" >
+        BBSANSWER_SENDTIME = #{bbsanswerSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bbsanswerFace != null" >
+        BBSANSWER_FACE = #{bbsanswerFace,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BBSANSWER_ID = #{bbsanswerId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wl.entity.TbBbsanswer" >
+    update TB_BBSANSWER
+    set BBS_ID = #{bbsId,jdbcType=DECIMAL},
+      BBSANSWER_ROOTID = #{bbsanswerRootid,jdbcType=DECIMAL},
+      BBSANSWER_TITLE = #{bbsanswerTitle,jdbcType=VARCHAR},
+      BBSANSWER_CONTENT = #{bbsanswerContent,jdbcType=VARCHAR},
+      BBSANSWER_SENDER = #{bbsanswerSender,jdbcType=VARCHAR},
+      BBSANSWER_SENDTIME = #{bbsanswerSendtime,jdbcType=TIMESTAMP},
+      BBSANSWER_FACE = #{bbsanswerFace,jdbcType=VARCHAR}
+    where BBSANSWER_ID = #{bbsanswerId,jdbcType=DECIMAL}
+  </update>
+</mapper>
